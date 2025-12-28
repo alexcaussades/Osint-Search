@@ -1,6 +1,7 @@
 import os
 import subprocess
-
+import sys
+import time
 
 
 def check_directory_output(path = "output/"):
@@ -50,3 +51,45 @@ def install_dependencies_sherlock():
     print("[*] Installation des dépendances de Sherlock...")
     os.system("pip install -r sherlock/requirements.txt")
     print("[*] Installation des dépendances terminée.")
+
+
+def check_installation_maigret():
+    try:
+        # Vérifier si Maigret est installé sur le système en utilisant 'which' sous Unix ou 'where' sous Windows
+            with open(os.devnull, 'w') as devnull:
+                if os.name == 'nt':
+                    subprocess.check_call(['where', 'maigret'], stdout=devnull, stderr=devnull)
+                else:
+                    subprocess.check_call(['which', 'maigret'], stdout=devnull, stderr=devnull)
+                    
+            pass
+    except FileNotFoundError:
+        print("[*] Maigret n'est pas installé. Installation en cours...")
+        os.system("pip install maigret-osint")
+        print("[*] Installation de Maigret terminée.")
+    except subprocess.CalledProcessError:
+        print("[*] Maigret n'est pas installé. Installation en cours...")
+        os.system("pip install maigret-osint")
+        print("[*] Installation de Maigret terminée.")
+        
+def install_dependencies_maigret():
+    print("[*] Installation des dépendances de Maigret...")
+    os.system("pip install maigret-osint")
+    print("[*] Installation des dépendances terminée.")
+    
+    
+def ouverture_directory_output():
+    # ouverture du répertoire output du dossier courant
+    output_path = os.path.join(os.getcwd(), "output")
+    print(f"Ouverture du répertoire: {output_path}")
+    if os.name == 'nt':  # Pour Windows
+        os.startfile(output_path)
+    elif os.name == 'posix':  # Pour macOS et Linux
+        subprocess.call(['open' if sys.platform == 'darwin' else 'xdg-open', output_path])
+    
+def fermeture_application():
+    print("Fermeture de l'application...")
+    time.sleep(2)
+    sys.exit()
+
+    
