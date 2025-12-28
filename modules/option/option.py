@@ -3,22 +3,21 @@ import subprocess
 
 
 
-def check_directory_output(path):
-    if(os.path.join(path, "output")):
-        return True
-    else:
-        os.mkdir(os.path.join(path, "output"))
-        return False
+def check_directory_output(path = "output/"):
+    # Vérifie si le répertoire de sortie existe, sinon le crée
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 def option_generator() -> str:
     print("Bienvenue dans l'outil de recherche OSINT. Version " + os.getenv("Version"))
     print("")
     print("un outil pour rechercher des emails et des usernames sur diverses plateformes en ligne.")
     print("")
-    print("Contribé au developpement de cet outil sur GitHub: https://github.com/votre-repository")
+    print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
     print("")
     print("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"))
     print("")
+    check_directory_output()
     option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
     while option_type not in ["email", "username"]:
         print("Option invalide. Veuillez entrer 'email' ou 'username'.")
