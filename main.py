@@ -11,12 +11,14 @@ import smtplib
 import socket
 from modules.option import option
 from modules.username import sherlock
+from modules.username import maigret
 from dotenv import load_dotenv
 import colored
 
 load_dotenv()
 option_type = option.option_generator()
 option.check_installation_sherlock()
+option.check_installation_maigret()
 print("Vérification de l'installation de Sherlock terminée.") 
 
   
@@ -26,8 +28,14 @@ if option_type == "email":
     
 elif option_type == "username":
     username = input("Entrez le username à rechercher: ")
-    sherlock.search_username_sherlock(username)
+    # sherlock.search_username_sherlock(username)
+    # maigret.check_username_maigret(username)
     
+    
+option.ouverture_directory_output()
+print("Ouverture du répertoire de sortie...")
+
+option.fermeture_application()
  
 
 
