@@ -28,8 +28,8 @@ if option_type == "email":
     
 elif option_type == "username":
     username = input("Entrez le username à rechercher: ")
-    # sherlock.search_username_sherlock(username)
-    # maigret.check_username_maigret(username)
+    sherlock.search_username_sherlock(username)
+    maigret.check_username_maigret(username)
     
     
 option.ouverture_directory_output()
