@@ -27,5 +27,5 @@ Recherche des e-mails/users sur différents sites internet.
 > [!NOTE]
 > Il est impératif que toutes les dépendances soient à jour!
 
-
+`git clone https://github.com/alexcaussades/Osint-Search`
 `pip install -r Requirements.txt `
