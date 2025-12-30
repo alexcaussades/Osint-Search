@@ -24,7 +24,7 @@ Recherche des e-mails/users sur différents sites internet.
 
 ## Installation 
 
-> ![NOTE]
+> [!NOTE]
 > Il est impératif que toutes les dépendances soient à jour!
 
 
