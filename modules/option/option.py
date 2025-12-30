@@ -3,6 +3,11 @@ import subprocess
 import sys
 import time
 from modules.option.update import update_option
+from colorama import just_fix_windows_console
+from termcolor import colored
+
+just_fix_windows_console()
+
 
 def check_directory_output(path = "output/"):
     # Vérifie si le répertoire de sortie existe, sinon le crée
@@ -11,13 +16,9 @@ def check_directory_output(path = "output/"):
 
 def option_generator() -> str:
     print("Bienvenue dans l'outil de recherche OSINT. Version " + os.getenv("VERSION"))
-    print("")
     print("Un outil pour rechercher des emails et des usernames sur diverses plateformes en ligne.")
-    print("")
     print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
-    print("")
-    print("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"))
-    print("")
+    print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
     check_directory_output()
     update_option()
     option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
