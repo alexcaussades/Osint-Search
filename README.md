@@ -21,6 +21,11 @@ Recherche des e-mails/users sur différents sites internet.
 
 `pip install -r Requirements.txt `
 
+> [!TIP]
+> Rendez vous sur le wiki pour une avoir plus d'info
+
+Wiki [installation complète](https://github.com/alexcaussades/Osint-Search/wiki)
+
 ### Liste des dépendances obligatoires.
 
 - Maigret ([Installation & Documentation](https://github.com/soxoj/maigret))
