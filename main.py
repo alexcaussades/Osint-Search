@@ -20,23 +20,19 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-#print(config['Search']['Search_preference'])
+configpref = config['Search']['Search_preference_active']
 
 just_fix_windows_console()
 
 load_dotenv()
 
-option_type = option.option_generator()
 option.check_installation_sherlock()
 option.check_installation_maigret()
 print("Vérification de l'installation de Sherlock terminée.")
 
-if(config["Search"]["Search_preference_active"] == "true"):
+if(configpref == "true"):
+    print ("Recherche avec préférences activées.")
     option.option_generator_minimal()
-
-    
-if option_type == "exit":
-    option.fermeture_application()
     
     
 option.ouverture_directory_output()

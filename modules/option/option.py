@@ -3,6 +3,7 @@ import subprocess
 import sys
 import time
 from modules.option.update import update_search
+from modules.username import maigret, sherlock
 from colorama import just_fix_windows_console
 from termcolor import colored
 import configparser
@@ -40,7 +41,9 @@ def option_generator_minimal() -> str:
     print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
     check_directory_output()
     update_search()
-
+    username = input("Rechercher du username? : ")
+    sherlock.search_username_sherlock(username)
+    maigret.search_username_maigret(username)
 
 def check_installation_sherlock():
     try:
