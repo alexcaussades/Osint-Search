@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 import time
-from modules.option.update import update_option
+from modules.option.update import update_search
 from colorama import just_fix_windows_console
 from termcolor import colored
 
@@ -20,12 +20,14 @@ def option_generator() -> str:
     print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
     print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
     check_directory_output()
-    update_option()
+    update_search()
     option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
     while option_type not in ["email", "username"]:
         print("Option invalide. Veuillez entrer 'email' ou 'username'.")
         option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
     return option_type
+
+
 
 
 def check_installation_sherlock():

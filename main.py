@@ -15,15 +15,21 @@ from modules.username import maigret
 from dotenv import load_dotenv
 from colorama import just_fix_windows_console
 from termcolor import colored
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+#print(config['Search']['Search_preference'])
 
 just_fix_windows_console()
 
 load_dotenv()
+
 option_type = option.option_generator()
 option.check_installation_sherlock()
 option.check_installation_maigret()
 print("Vérification de l'installation de Sherlock terminée.")
-
   
 if option_type == "email":
     email = input("Entrez l'email à rechercher: ")
