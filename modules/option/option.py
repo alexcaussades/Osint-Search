@@ -5,6 +5,12 @@ import time
 from modules.option.update import update_search
 from colorama import just_fix_windows_console
 from termcolor import colored
+import configparser
+
+from modules.username import maigret, sherlock
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 just_fix_windows_console()
 
@@ -27,7 +33,13 @@ def option_generator() -> str:
         option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
     return option_type
 
-
+def option_generator_minimal() -> str:
+    print("Bienvenue dans l'outil de recherche OSINT. Version " + os.getenv("VERSION"))
+    print("Un outil pour rechercher des emails et des usernames sur diverses plateformes en ligne.")
+    print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
+    print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
+    check_directory_output()
+    update_search()
 
 
 def check_installation_sherlock():
@@ -96,4 +108,3 @@ def fermeture_application():
     time.sleep(2)
     sys.exit()
 
-    

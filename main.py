@@ -30,17 +30,12 @@ option_type = option.option_generator()
 option.check_installation_sherlock()
 option.check_installation_maigret()
 print("Vérification de l'installation de Sherlock terminée.")
-  
-if option_type == "email":
-    email = input("Entrez l'email à rechercher: ")
+
+if(config["Search"]["Search_preference_active"] == "true"):
+    option.option_generator_minimal()
+
     
-    
-elif option_type == "username":
-    username = input(colored("Entrez le username à rechercher: ", "yellow"))
-    sherlock.search_username_sherlock(username)
-    maigret.check_username_maigret(username)
-    
-elif option_type == "exit":
+if option_type == "exit":
     option.fermeture_application()
     
     
