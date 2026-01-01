@@ -25,6 +25,10 @@ configpref = config['Search']['Search_preference_active']
 just_fix_windows_console()
 
 load_dotenv()
+option.check_installation_sherlock()
+option.check_installation_maigret()
+
+
 
 if (len(sys.argv) > 1 and sys.argv[1] == "--all"):
     print("Recherche avec toutes les options activées.")
@@ -33,32 +37,48 @@ if (len(sys.argv) > 1 and sys.argv[1] == "--all"):
     print("Ouverture du répertoire de sortie...")
     option.fermeture_application()
     sys.exit()
-elif (len(sys.argv) > 1 and sys.argv[1] == "--help"):
+    
+if (len(sys.argv) > 1 and sys.argv[1] == "--help"):
     print("Utilisation: python main.py [--all] [--help]")
     print("--all : Recherche avec toutes les options activées.")
-    print("username <username> : Recherche du username spécifié.")
-    print("email <email> : Recherche de l'email spécifié.")
+    print("username <username> (u) : Recherche du username spécifié.")
+    print("email <email> (e): Recherche de l'email spécifié.")
     print("--help : Affiche ce message d'aide.")
     sys.exit()
-elif (len(sys.argv) > 1 and sys.argv[1] == "username" or 'u' and sys.argv[2]):
-    username = sys.argv[2]
+    
+    
+    
+if (len(sys.argv) > 1 and sys.argv[1] == "username"):
+    username = sys.argv[2] if len(sys.argv) > 2 else input("Entrez le username à rechercher: ")
     print(f"Recherche du username: {username}")
     sherlock.search_username_sherlock(username)
     maigret.search_username_maigret(username)
     option.ouverture_directory_output()
     sys.exit()
-elif (len(sys.argv) > 1 and sys.argv[1] == "email" or 'e' and sys.argv[2]):
-    email = sys.argv[2]
+    
+if (len(sys.argv) > 1 and sys.argv[1] == "u"):
+    username = sys.argv[2] if len(sys.argv) > 2 else input("Entrez le username à rechercher: ")
+    print(f"Recherche du username: {username}")
+    sherlock.search_username_sherlock(username)
+    maigret.search_username_maigret(username)
+    option.ouverture_directory_output()
+    sys.exit()
+    
+if (len(sys.argv) > 1 and sys.argv[1] == "email"):
+    email = sys.argv[2] if len(sys.argv) > 2 else input("Entrez l'email à rechercher: ")
+    print(f"Recherche de l'email: {email}")
+    print("Fonction de recherche d'email non encore implémentée.")
+    sys.exit()
+    
+if (len(sys.argv) > 1 and sys.argv[1] == "e"):
+    email = sys.argv[2] if len(sys.argv) > 2 else input("Entrez l'email à rechercher: ")
     print(f"Recherche de l'email: {email}")
     print("Fonction de recherche d'email non encore implémentée.")
     sys.exit()
 
-option.check_installation_sherlock()
-option.check_installation_maigret()
-print("Vérification de l'installation de Sherlock terminée.")
 
 if(configpref == "true"):
-    print ("Recherche avec préférences activées.")
+    print (colored("Recherche avec préférences activées.", "green"))
     option.option_generator_minimal()
     
     

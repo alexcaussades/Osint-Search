@@ -32,6 +32,8 @@ def option_generator() -> str:
     while option_type not in ["email", "username"]:
         print("Option invalide. Veuillez entrer 'email' ou 'username'.")
         option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
+        if option_type == "exit":
+            fermeture_application()
     return option_type
 
 def option_generator_minimal() -> str:
@@ -42,6 +44,8 @@ def option_generator_minimal() -> str:
     check_directory_output()
     update_search()
     username = input("Rechercher du username? : ")
+    if username == "exit":
+        fermeture_application()
     sherlock.search_username_sherlock(username)
     maigret.search_username_maigret(username)
 
