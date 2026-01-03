@@ -2,9 +2,16 @@ import os
 import subprocess
 import sys
 import time
-from modules.option.update import update_option
+from modules.option.update import update_search
+from modules.username import maigret, sherlock
 from colorama import just_fix_windows_console
 from termcolor import colored
+import configparser
+
+from modules.username import maigret, sherlock
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 just_fix_windows_console()
 
@@ -20,13 +27,27 @@ def option_generator() -> str:
     print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
     print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
     check_directory_output()
-    update_option()
+    update_search()
     option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
     while option_type not in ["email", "username"]:
         print("Option invalide. Veuillez entrer 'email' ou 'username'.")
         option_type = input("Voulez-vous rechercher un email ou un username? (email/username): ")
+        if option_type == "exit":
+            fermeture_application()
     return option_type
 
+def option_generator_minimal() -> str:
+    print("Bienvenue dans l'outil de recherche OSINT. Version " + os.getenv("VERSION"))
+    print("Un outil pour rechercher des emails et des usernames sur diverses plateformes en ligne.")
+    print("Contribé au developpement de cet outil sur GitHub: " + os.getenv("GITHUB_REPO"))
+    print(colored("Adresse du portefeuille pour les dons: " + os.getenv("WALLET_ADRESSE"), "yellow"))
+    check_directory_output()
+    update_search()
+    username = input("Rechercher du username? : ")
+    if username == "exit":
+        fermeture_application()
+    sherlock.search_username_sherlock(username)
+    maigret.search_username_maigret(username)
 
 def check_installation_sherlock():
     try:
@@ -94,4 +115,3 @@ def fermeture_application():
     time.sleep(2)
     sys.exit()
 
-    

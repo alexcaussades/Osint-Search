@@ -3,7 +3,7 @@ import os
 
 
 
-def check_username_maigret(username: str):
+def check_username_maigret(username) -> str:
     print(f"Recherche du username '{username}' avec Maigret...")
     os.system("maigret " + username + " --pdf")
     print("Choisir Option F")

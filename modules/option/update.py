@@ -9,7 +9,7 @@ just_fix_windows_console()
 
 load_dotenv()
 
-def update_option():
+def update_search():
     url = requests.get(os.getenv("RELEASES_API_GITHUB")).url
     response = requests.get(url)
     if response.status_code == 200:

@@ -2,7 +2,7 @@ import os
 
 
 
-def search_username_sherlock(username: str):
+def search_username_sherlock(username) -> str:
     print(f"Recherche du username '{username}' avec Sherlock...")
     os.system("sherlock --version")  # Vérifier que Sherlock est installé
     os.system("sherlock "+username + " --output output/" + username + ".txt") 
