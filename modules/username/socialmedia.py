@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 http = urllib3.PoolManager()
 
 
-username = "alexcaussades"
+username = "alexcaussades24"  # Remplacez par le nom d'utilisateur que vous souhaitez rechercher
 
 SITES = {
     "GitHub": "https://github.com/{}",
@@ -34,10 +34,10 @@ def Search_Nitter(username):
         browser = p.chromium.launch(headless=True)  # False = voir le navigateur
         page = browser.new_page()
         page.goto(SITES["nitter"].format(username))
-        if page.locator(".error-panel").is_visible(): 
+        print("Nitter User Info:")
+        if page.text_content("body").find("error-panel") == "User "+ username + " not found.":
             print(f"❌ Utilisateur '{username}' introuvable sur cette instance Nitter")
-            browser.close() 
-            exit()
+            browser.close()
         Info = { 
             "title": page.title(), "url": page.url, 
             "bio": safe_text(page, "div.profile-bio"),
@@ -56,8 +56,18 @@ def get_reddit_user_info(username):
     url = f"https://www.reddit.com/user/{username}/about.json"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
     r = requests.get(url, headers=headers, verify=False)
+    
+    if r.status_code == 404:
+        print(f"❌ Utilisateur '{username}' introuvable sur Reddit")
+        pass
+    
     if r.status_code != 200:
-        return {"error": "Utilisateur introuvable ou API bloquée"}
+        print("❌ Impossible de récupérer les informations utilisateur Reddit.")
+        pass
+    try:
+        r.raise_for_status()  
+    except requests.exceptions.HTTPError as e:
+        return
 
     data = r.json()["data"]
 
@@ -71,9 +81,8 @@ def get_reddit_user_info(username):
         "post_karma": data["link_karma"],
         "comment_karma": data["comment_karma"],
         "url": f"https://www.reddit.com/user/{username}/"
-    }
+    }  
     print(info)
-    #mount_0_0_1I > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.html-div.xdj266r.x14z9mp.xat24cr.x1lziwak.xexx8yu.xyri2b.x18d9i69.x1c1uobl.x9f619.x16ye13r.xvbhtw8.x78zum5.x15mokao.x1ga7v0g.x16uus16.xbiv7yw.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.xvc5jky.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y.x8vgawa > section > main > div > div > header > div > section.x98rzlu.xeuugli > div > div.html-div.xdj266r.x14z9mp.xat24cr.x1lziwak.xexx8yu.xyri2b.x18d9i69.x1c1uobl.x9f619.xjbqb8w.x40hh3e.x78zum5.x15mokao.x1ga7v0g.x16uus16.xbiv7yw.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x6s0dn4.x1oa3qoh.x1nhvcw1
 
 # utiliser la methode Search_Nitter pour Instagram
 def instagram_user_info(username):
@@ -81,23 +90,19 @@ def instagram_user_info(username):
         browser = p.chromium.launch(headless=True)  # False = voir le navigateur
         page = browser.new_page()
         page.goto(SITES["Instagram"].format(username))
-        if page.title() == "Profile n’est pas disponible • Instagram": 
+        if page.title() == "Profile isn't available • Instagram": 
             print(f"❌ Utilisateur '{username}' introuvable sur Instagram")
             browser.close() 
-            exit()
-        
-        print("Instagram User Info:")
-        print(page)
-        Info = { 
-            "title": page.title(),
-            # "publications": page.locator('span html-span xdj266r x14z9mp xat24cr x1lziwak xexx8yu xyri2b x18d9i69 x1c1uobl x1hl2dhg x16tdsg8 x1vvkbs').first.inner_text(),
-            # "followers": page.locator('span html-span xdj266r x14z9mp xat24cr x1lziwak xexx8yu xyri2b x18d9i69 x1c1uobl x1hl2dhg x16tdsg8 x1vvkbs').nth(1).inner_text(),
-            # "following": page.locator('span html-span xdj266r x14z9mp xat24cr x1lziwak xexx8yu xyri2b x18d9i69 x1c1uobl x1hl2dhg x16tdsg8 x1vvkbs').nth(2).inner_text(),
-            "url_page": page.url
-            }
+            return print("")
+        else:
+            print("Instagram User Info:")
+            Info = { 
+                "title": page.title(),
+                "url_page": page.url
+                }
         browser.close()
         print(Info)
 
-# Search_Nitter(username),
-# get_reddit_user_info(username)
+Search_Nitter(username)
+get_reddit_user_info(username)
 instagram_user_info(username)
