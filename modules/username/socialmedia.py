@@ -6,9 +6,10 @@ import urllib3
 urllib3.disable_warnings()
 from playwright.sync_api import sync_playwright
 http = urllib3.PoolManager()
+from instaloader import Instaloader, Profile
 
 
-username = "alexcaussades24"  # Remplacez par le nom d'utilisateur que vous souhaitez rechercher
+username = "alexcaussades"  # Remplacez par le nom d'utilisateur que vous souhaitez rechercher
 
 SITES = {
     "GitHub": "https://github.com/{}",
@@ -29,26 +30,41 @@ def safe_text(page, selector):
     except: 
         return None
     
-def Search_Nitter(username):    
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)  # False = voir le navigateur
-        page = browser.new_page()
-        page.goto(SITES["nitter"].format(username))
+def Search_Nitter(username):            
+        url = f"{SITES['nitter'].format(username)}"
+        response = requests.get(url, timeout=50000)
+        if response.status_code == 404:
+            print(f"❌ Utilisateur '{username}' introuvable sur Nitter")
+            return
+        if response.status_code != 200:
+            print("❌ Impossible de récupérer les informations utilisateur Nitter.")
+            return
+        if response.status_code == 502:
+            print("❌ Nitter est actuellement indisponible (502 Bad Gateway).")
+            return
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        bio = soup.find("div", {"class": "profile-bio"}).text if soup.find("div", {"class": "profile-bio"}) else 'Bio non disponible'
+        
+        followers = soup.find("li", {"class": "followers"}).find("span", {"class": "profile-stat-num"}).text if soup.find("li", {"class": "followers"}) else 'Nombre de followers non disponible'
+        
+        following = soup.find("li", {"class": "following"}).find("span", {"class": "profile-stat-num"}).text if soup.find("li", {"class": "following"}) else 'Nombre de following non disponible'
+        
+        tweets = soup.find("li", {"class": "posts"}).find("span", {"class": "profile-stat-num"}).text if soup.find("li", {"class": "posts"}) else 'Nombre de tweets non disponible'
+        
+        likes = soup.find("li", {"class": "likes"}).find("span", {"class": "profile-stat-num"}).text if soup.find("li", {"class": "likes"}) else 'Nombre de likes non disponible'
+        
+        info = {
+            "username": username,
+            "bio": bio,
+            "followers": followers,
+            "following": following,
+            "tweets": tweets,
+            "likes": likes,
+            "url": url
+        }
         print("Nitter User Info:")
-        if page.text_content("body").find("error-panel") == "User "+ username + " not found.":
-            print(f"❌ Utilisateur '{username}' introuvable sur cette instance Nitter")
-            browser.close()
-        Info = { 
-            "title": page.title(), "url": page.url, 
-            "bio": safe_text(page, "div.profile-bio"),
-            "followers": safe_text(page, 'li.followers .profile-stat-num'),
-            "following": safe_text(page, 'li.following .profile-stat-num'),
-            "tweets": safe_text(page, 'li.posts .profile-stat-num'),
-            "likes": safe_text(page, 'li.likes .profile-stat-num'),
-            "url_page": page.url
-            }
-        browser.close()
-        print(Info)
+        print(info)
 
 
 
@@ -103,6 +119,7 @@ def instagram_user_info(username):
         browser.close()
         print(Info)
 
+
 Search_Nitter(username)
-get_reddit_user_info(username)
-instagram_user_info(username)
+# get_reddit_user_info(username)
+# instagram_user_info(username)

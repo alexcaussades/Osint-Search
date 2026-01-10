@@ -54,7 +54,7 @@ if (len(sys.argv) > 1 and sys.argv[1] == "username"):
     username = sys.argv[2] if len(sys.argv) > 2 else input("Entrez le username à rechercher: ")
     print(f"Recherche du username: {username}")
     sherlock.search_username_sherlock(username)
-    maigret.search_username_maigret(username)
+    maigret.check_username_maigret(username)
     option.ouverture_directory_output()
     sys.exit()
     
@@ -62,7 +62,7 @@ if (len(sys.argv) > 1 and sys.argv[1] == "u"):
     username = sys.argv[2] if len(sys.argv) > 2 else input("Entrez le username à rechercher: ")
     print(f"Recherche du username: {username}")
     sherlock.search_username_sherlock(username)
-    maigret.search_username_maigret(username)
+    maigret.check_username_maigret(username)
     option.ouverture_directory_output()
     sys.exit()
     

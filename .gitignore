@@ -4,3 +4,4 @@ vscode/*
 # Ignore Python cache files
 **/__pycache__/
 **/*.py[cod]
+*.ini
