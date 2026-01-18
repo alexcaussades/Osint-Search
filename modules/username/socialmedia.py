@@ -120,6 +120,30 @@ def instagram_user_info(username):
         print(Info)
 
 
-Search_Nitter(username)
+def dumpor(username):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)  # False = voir le navigateur
+        page = browser.new_page()
+        page.goto(f"https://dumpor.com/v/{username}")
+        if "Not Found" in page.title(): 
+            print(f"❌ Utilisateur '{username}' introuvable sur Dumpor")
+            browser.close() 
+            return print("")
+        else:
+            print("Dumpor User Info:")
+            Info = { 
+                "title": page.title(),
+                "url_page": page.url,
+                "Followers": page.locator("div.stats div.items div.item:nth-of-type(1) span.number").inner_text(),
+                "Posts": page.locator("div.stats div.items div.item:nth-of-type(2) span.number").inner_text(),
+                "Following": page.locator("div.stats div.items div.item:nth-of-type(3) span.number").inner_text(),
+                }
+        browser.close()
+        print(Info)
+
+# Search_Nitter(username)
 # get_reddit_user_info(username)
 # instagram_user_info(username)
+dumpor(username)
+
+# https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forUsername=alexcaussades

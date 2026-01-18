@@ -9,6 +9,7 @@ import hashlib
 import json
 import smtplib
 import socket
+import yaml
 from modules.option import option
 from modules.option.config import activate_default_preference_config, désactiver_preference_config
 from modules.username import sherlock
@@ -17,6 +18,15 @@ from dotenv import load_dotenv
 from colorama import just_fix_windows_console
 from termcolor import colored
 import configparser
+
+with open("modules/option/yaml/config.yaml", "r") as file:
+    # Charger le contenu du fichier en tant que dictionnaire Python
+    configuration = yaml.safe_load(file)
+    
+print (colored(configuration['app_name'], "cyan"))
+print (colored("Version: " + configuration['version'], "cyan"))
+
+exit()
 
 #activate_default_preference_config()
 config = configparser.ConfigParser()

@@ -1,0 +1,25 @@
+app_name: Osint Search Tool
+version: "0.4"
+
+# database en YAML
+defaults: &defaults
+  host: localhost
+  port: 3306
+  user: DB_user
+  password: DB_password
+
+# sqlite create instance
+create: &create
+  adapter: sqlite3
+  path: database/sqlite_database.db
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *create
+  database: database/sqlite_database.db
+
+production:
+  <<: *defaults
+  database: prod_db
+
